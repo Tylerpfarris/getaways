@@ -50,4 +50,27 @@ module.exports = Router()
     } catch (err) {
       next(err);
     }
-  });
+  })
+  .put('/edit/:id', async (req, res, next) => {
+ 
+    try {
+      // const { token, user } = await User.authorize(req.body);
+
+      // res.cookie('session', token, {
+      //   httpOnly: true,
+      //   maxAge: ONE_DAY_IN_MS,
+      //   // sameSite: 'Lax' | 'None' | 'Strict',
+      //   // secure: true
+      // });
+    
+      const updatedUser = await User.findByIdAndUpdate({ _id: req.params.id }, {
+        username: req.body.username,
+        email: req.body.email
+      })
+      res.send(updatedUser);
+    } catch (err) {
+      err.status = 401;
+      next(err);
+    }
+  })
+

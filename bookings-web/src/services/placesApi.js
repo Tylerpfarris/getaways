@@ -21,3 +21,11 @@ export const getPlaces = async () => {
     throw new Error(await response.json());
   }
 };
+
+export const getUsers = async () => {
+  const response = await fetch(`${process.env.BASE_URL}/users`);
+  if (response.ok) {
+    const result = await response.json();
+    return result
+  }
+}

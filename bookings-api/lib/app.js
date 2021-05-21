@@ -14,7 +14,7 @@ app.use(cookieParser());
 
 app.use('/api/v1/bookings', require('./controllers/bookings'));
 app.use('/api/v1/places', require('./controllers/places'));
-// app.use('/api/v1/reviews', require('./controllers/reviews'));
+app.use('/api/v1/reviews', require('./controllers/reviews'));
 app.use('/api/v1/users', require('./controllers/users'));
 
 app.use(require('./middleware/not-found'));
