@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { registerUser } from '../../services/placesApi';
+import { registerUser } from '../../services/userApi';
 // import PropTypes from 'prop-types';
 
 const Register = ({ history }) => {
