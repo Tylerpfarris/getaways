@@ -1,9 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Place from './Place';
+import PlaceMatUI from './PlaceMatUI';
 
-const PlaceList = ({ places }) => {
-  return places.map((place) => <Place key={place.id} {...place} />);
+const PlaceList = ({ places, page }) => {
+const pagedPlaceList =  places.slice(((page - 1) * 24), (page * 24))
+
+  return (
+    <div style={{
+      display: 'flex',
+      flexWrap: 'wrap',
+    }}>
+      {pagedPlaceList.map((place) => {
+        return(
+        <PlaceMatUI key={place.id} {...place} />
+        );}
+    )} 
+    </div>
+  )
 };
 
 PlaceList.propTypes = {
