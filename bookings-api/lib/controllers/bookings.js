@@ -3,6 +3,7 @@ const verifyToken = require('../utils/verify-token');
 
 const Booking = require('../models/Booking');
 const Place = require('../models/Place');
+const { verify } = require('jsonwebtoken');
 
 module.exports = Router()
   .post('/create', verifyToken, async (req, res, next) => {
@@ -53,4 +54,10 @@ module.exports = Router()
   })
   .put('/:id', verifyToken, async (req, res, next) => {
     res.send('Updated');
-  });
+  })
+  .delete('/:id', verifyToken, async (req, res, next) => {
+    console.log(req.params.id)
+    const deletedBooking = await Booking.findOneAndDelete({_id: req.params.id});
+    console.log('DELETED BOOKING', deletedBooking)
+    res.send(deletedBooking)
+  })
