@@ -55,8 +55,9 @@ const Getaways = () => {
           )}
           {page === 1 && (
             <Button
+              disabled
               onClick={handlePageDecrement}
-              variant="disabled"
+              variant= 'contained'
               size="small"
               color="primary"
               style={{
@@ -88,8 +89,9 @@ const Getaways = () => {
           )}
           {page === Math.ceil(places.length / 24) && (
             <Button
+              disabled
               onClick={handlePageIncrement}
-              variant="disabled"
+              variant="contained"
               size="small"
               color="primary"
               style={{

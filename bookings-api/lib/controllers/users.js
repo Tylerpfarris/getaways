@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { Router } = require('express');
 const User = require('../models/User');
-
+const verifyToken  = require('../utils/verify-token');
 const ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;
 
 module.exports = Router()
@@ -62,27 +62,32 @@ module.exports = Router()
       next(err);
     }
   })
-  .put('/edit/:id', async (req, res, next) => {
+  .put('/edit', verifyToken,async (req, res, next) => {
  console.log('hey')
-    try {
-      const { token, user } = await User.authorize(req.body);
-      console.log('PASSWORD', user.password)
+   
 
-      res.cookie('session', token, {
+
+ 
+      const { username } = req.user;
+   
+      const email = req.body.originalEmail;
+      const newEmail = req.body.newEmail || email;
+      const newUsername = req.body.newUsername || username
+    
+      const updatedUser = await User.findOneAndUpdate({email}, {
+        username: newUsername,
+        email: newEmail
+      },{new: true})
+    const token = jwt.sign(updatedUser.toJSON(), process.env.JWT_SECRET, {expiresIn: '24h'})
+      
+        res.cookie('session', token, {
         httpOnly: true,
         maxAge: ONE_DAY_IN_MS,
         // sameSite: 'Lax' | 'None' | 'Strict',
         sameSite:'None',
         secure: true
-      });
-      const updatedUser = await User.findByIdAndUpdate({ _id: req.params.id }, {
-        username: req.body.username,
-        email: req.body.email
-      })
-      res.send(updatedUser);
-    } catch (err) {
-      err.status = 401;
-      next(err);
-    }
+        });
+        console.log(updatedUser)
+        res.json({updatedUser, token});
   })
 

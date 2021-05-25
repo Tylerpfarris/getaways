@@ -27,23 +27,28 @@ export const loginUser = async ( email, password ) => {
   return result.status ? result: {status: 200}
 }
 
-export const editUserFetch = async ( username, email, id ) => {
-  const response = await fetch(`${process.env.BASE_URL}/users/edit/${id}`, {
+export const editUserFetch = async ( username, newUsername, originalEmail, newEmail ) => {
+  const response = await fetch(`${process.env.BASE_URL}/users/edit`, {
     method: 'PUT',
     credentials: 'include',
     headers: { 'Content-Type':'application/json' },
     body: JSON.stringify({
       username,
-      email,
+      newUsername,
+      originalEmail,
+      newEmail
     })
   });
   const result = await response.json();
   console.log(result)
-  return result.status ? result: {status: 200}
+   return result.status ? result : { status: 200 }
 }
 
 export const logOutUser = async () => {
-  const json = await fetch(`${process.env.BASE_URL}/users/logout`,);
-  const res = await json.json();
-  return response
+   const res = await fetch(`${process.env.BASE_URL}/users/logout`, {
+     credentials: 'included'
+  });
+   const json = await res.json();
+   localStorage.removeItem('TOKEN')
+   return json;
 }

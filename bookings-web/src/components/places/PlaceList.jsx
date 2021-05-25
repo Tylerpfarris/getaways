@@ -1,21 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PlaceMatUI from './PlaceMatUI';
-
+import Place from './Place';
+import {Container} from '@material-ui/core'
 const PlaceList = ({ places, page }) => {
 const pagedPlaceList =  places.slice(((page - 1) * 24), (page * 24))
 
   return (
-    <div style={{
+    <Container
+      maxWidth='xl'
+      style={{
       display: 'flex',
       flexWrap: 'wrap',
     }}>
       {pagedPlaceList.map((place) => {
         return(
-        <PlaceMatUI key={place.id} {...place} />
+        <Place key={place.id} {...place} />
         );}
     )} 
-    </div>
+    </Container>
   )
 };
 

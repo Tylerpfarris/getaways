@@ -4,23 +4,32 @@ import { editUserFetch } from '../../services/userApi';
 
 const EditUser = ({ history, match}) => {
   const [username, setUsername] = useState('');
-   const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('');
+  const [newUsername, setNewUsername] = useState('');
+  const [newEmail, setNewEmail] = useState('');
 
-   const id = match.params.id;
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    const { message, status } = await editUserFetch(username, email, id);
+    const { message, status } = await editUserFetch(username, newUsername, email, newEmail);
     if (!status.toString().startsWith('2')) return alert(message);
     history.push('/register');
   };
-  console.log(username)
+  
   const handleEmailEditChange = ({ target }) => {
     setEmail(target.value);
   };
 
   const handleUsernameEditChange = ({ target }) => {
     setUsername(target.value);
+  };
+
+  const handleNewEmailEditChange = ({ target }) => {
+    setNewEmail(target.value);
+  };
+
+  const handleNewUsernameEditChange = ({ target }) => {
+    setNewUsername(target.value);
   };
 
   return (
@@ -35,6 +44,15 @@ const EditUser = ({ history, match}) => {
           onChange={handleUsernameEditChange}
         />
       </label>
+      <label htmlFor="newUsername">
+        New Username:
+        <input
+          type="text"
+          id="newUsername"
+          value={newUsername}
+          onChange={handleNewUsernameEditChange}
+        />
+      </label>
       <label htmlFor="email">
         Email:
         <input
@@ -42,6 +60,15 @@ const EditUser = ({ history, match}) => {
           id="email"
           value={email}
           onChange={handleEmailEditChange}
+        />
+      </label>
+      <label htmlFor="newEmail">
+        New Email:
+        <input
+          type="text"
+          id="newEmail"
+          value={newEmail}
+          onChange={handleNewEmailEditChange}
         />
       </label>
       <button aria-label="register-button">Submit</button>
